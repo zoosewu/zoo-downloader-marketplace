@@ -20,7 +20,7 @@ pnpm install
 # edit <id>/src/index.ts, raise "version" in <id>/manifest.json
 pnpm build && pnpm catalog
 pnpm check
-zoo-module test            # in <id>/: replays tests/cassettes (zoo-module comes with the app repo)
+zoo-module test            # in <id>/: replays tests/cassettes (zoo-module-<platform> is on every app release)
 ```
 
 Push to `main` to publish. To try a change first, push a branch and add its catalog as a

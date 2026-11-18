@@ -18,3 +18,26 @@ jobs:
       # dist/ built from src/, catalog matches the modules (versions, sha256), types/ is the SDK
       # named in sdk.json, and every module type-checks against it.
       - run: pnpm check
+
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The site-module CLI of the latest Zoo Downloader release (the host users run).
+      - name: zoo-module
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo zoosewu/zoo-downloader --pattern 'zoo-module-x86_64-unknown-linux-gnu' --output zoo-module
+          chmod +x zoo-module
+      # Every module's tests/cases.json against its recordings (no network, no accounts).
+      - name: zoo-module test
+        run: |
+          status=0
+          for cases in */tests/cases.json; do
+            dir=${cases%/tests/cases.json}
+            echo "::group::$dir"
+            (cd "$dir" && ../zoo-module test) || status=1
+            echo "::endgroup::"
+          done
+          exit $status
