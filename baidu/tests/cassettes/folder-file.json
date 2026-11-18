@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://pan.baidu.com/share/verify?surl=hNGn9htG8eDtae_tB94FtA&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "\n\n{\"errno\":0,\"err_msg\":\"\",\"request_id\":513889550400694772,\"randsk\":\"t25YE%2FB1x4K6UVNHMcLwcwr6dYDb%2BQvTxIm0W6PmEcQ%3D\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://pan.baidu.com/share/list?shorturl=hNGn9htG8eDtae_tB94FtA&dir=&root=1&page=1&num=100&order=time&desc=1&showempty=0&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "{\"errno\":0,\"request_id\":513889701638867019,\"server_time\":1794880992,\"cfrom_id\":0,\"hitrisk\":0,\"appeal_status\":0,\"is_zombie\":0,\"vip_point\":10,\"vip_level\":1,\"svip10_id\":\"\",\"vip_type\":0,\"sharetype\":0,\"view_visited\":0,\"view_limit\":0,\"expired_type\":0,\"title\":\"/罚抄存档\",\"list\":[{\"category\":\"6\",\"extent_int8\":\"0\",\"fs_id\":\"386130990381186\",\"isdir\":\"1\",\"local_ctime\":\"1702997226\",\"local_mtime\":\"1702997226\",\"md5\":\"\",\"path\":\"/罚抄存档\",\"server_ctime\":\"1702997226\",\"server_filename\":\"罚抄存档\",\"server_mtime\":\"1703685784\",\"size\":\"0\"}],\"cur_total\":1,\"share_id\":34532414525,\"uk\":1619240234,\"is_webmaster\":false,\"show_msg\":\"success\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://pan.baidu.com/share/list?shorturl=hNGn9htG8eDtae_tB94FtA&dir=%2F%E7%BD%9A%E6%8A%84%E5%AD%98%E6%A1%A3&root=0&page=1&num=100&order=time&desc=1&showempty=0&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "{\"errno\":0,\"request_id\":513890016159532596,\"server_time\":1794880993,\"cfrom_id\":0,\"hitrisk\":0,\"appeal_status\":0,\"is_zombie\":0,\"vip_point\":10,\"vip_level\":1,\"svip10_id\":\"\",\"vip_type\":0,\"sharetype\":0,\"view_visited\":0,\"view_limit\":0,\"expired_type\":0,\"share_id\":34532414525,\"uk\":1619240234,\"is_webmaster\":false,\"list\":[{\"category\":6,\"extent_int8\":0,\"fs_id\":113761308657458,\"isdir\":1,\"local_ctime\":1703685687,\"local_mtime\":1703685687,\"path\":\"/罚抄存档/The Theater of Love and Tears The Battle of Tomoko the Ultimate Shikigami\",\"server_ctime\":1703685687,\"server_filename\":\"The Theater of Love and Tears The Battle of Tomoko the Ultimate Shikigami\",\"server_mtime\":1703685723,\"size\":0},{\"category\":6,\"extent_int8\":0,\"fs_id\":194801702913737,\"isdir\":1,\"local_ctime\":1703170753,\"local_mtime\":1703170753,\"path\":\"/罚抄存档/校园怪兽\",\"server_ctime\":1703170753,\"server_filename\":\"校园怪兽\",\"server_mtime\":1703170761,\"size\":0},{\"category\":6,\"extent_int8\":0,\"fs_id\":381125098328247,\"isdir\":1,\"local_ctime\":1703047818,\"local_mtime\":1703047818,\"path\":\"/罚抄存档/Proof of Paranormal Phenomena\",\"server_ctime\":1703047818,\"server_filename\":\"Proof of Paranormal Phenomena\",\"server_mtime\":1703047931,\"size\":0},{\"category\":6,\"extent_int8\":0,\"fs_id\":1061357733122650,\"isdir\":1,\"local_ctime\":1702998095,\"local_mtime\":1702998095,\"path\":\"/罚抄存档/Say it with flowers\",\"server_ctime\":1702998095,\"server_filename\":\"Say it with flowers\",\"server_mtime\":1703047827,\"size\":0},{\"category\":4,\"extent_int8\":0,\"fs_id\":842228412139264,\"isdir\":0,\"local_ctime\":1702994291,\"local_mtime\":1702998059,\"md5\":\"707af1b00i9508965c3b4e384c05aeed\",\"path\":\"/罚抄存档/看我.txt\",\"server_ctime\":1702998080,\"server_filename\":\"看我.txt\",\"server_mtime\":1703685784,\"size\":376,\"docpreview\":\"https://pcsdata.baidu.com/doc/707af1b00i9508965c3b4e384c05aeed?fid=1619240234-250528-842228412139264&time=1794880993&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-ZGH6jil0Pc3QYxuOOeh0LGGUdzg%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=513890016159532596&dp-callid=0&file_type=0\",\"newdocpreview\":\"\",\"picdocpreview\":\"https://pcsdata.baidu.com/rest/2.0/docview/text?method=info&object=707af1b00i9508965c3b4e384c05aeed&fid=1619240234-250528-842228412139264&sign=FOTRE-DCb740ccc5511e5e8fedcff06b081203-H2xDX7JG4LSl1IZd0vzrJ%252BjciPE%253D&timestamp=1794880993&rt=sh&expires=24h&dp_logid=513890016159532596&file_type=txt&client_type=web&file_size=376\",\"hitpreview\":0}],\"cur_total\":5,\"show_msg\":\"success\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://pan.baidu.com/share/list?shorturl=hNGn9htG8eDtae_tB94FtA&dir=%2F%E7%BD%9A%E6%8A%84%E5%AD%98%E6%A1%A3%2F%E6%A0%A1%E5%9B%AD%E6%80%AA%E5%85%BD&root=0&page=1&num=100&order=time&desc=1&showempty=0&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "{\"errno\":0,\"request_id\":513890519109274147,\"server_time\":1794880995,\"cfrom_id\":0,\"hitrisk\":0,\"appeal_status\":0,\"is_zombie\":0,\"vip_point\":10,\"vip_level\":1,\"svip10_id\":\"\",\"vip_type\":0,\"sharetype\":0,\"view_visited\":0,\"view_limit\":0,\"expired_type\":0,\"share_id\":34532414525,\"uk\":1619240234,\"is_webmaster\":false,\"list\":[{\"category\":4,\"extent_int8\":0,\"fs_id\":861112468237263,\"isdir\":0,\"local_ctime\":1702994291,\"local_mtime\":1702998059,\"md5\":\"707af1b00i9508965c3b4e384c05aeed\",\"path\":\"/罚抄存档/校园怪兽/看我.txt\",\"server_ctime\":1702998080,\"server_filename\":\"看我.txt\",\"server_mtime\":1703170761,\"size\":376,\"docpreview\":\"https://pcsdata.baidu.com/doc/707af1b00i9508965c3b4e384c05aeed?fid=1619240234-250528-861112468237263&time=1794880996&rt=sh&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-%2B6RRyj6MGziSfSOCk862dvSxICI%3D&expires=8h&chkv=0&chkbd=0&chkpc=&dp-logid=513890519109274147&dp-callid=0&file_type=0\",\"newdocpreview\":\"\",\"picdocpreview\":\"https://pcsdata.baidu.com/rest/2.0/docview/text?method=info&object=707af1b00i9508965c3b4e384c05aeed&fid=1619240234-250528-861112468237263&sign=FOTRE-DCb740ccc5511e5e8fedcff06b081203-7D%252FsSavyrxBpRw0ZeJRgC8oUf14%253D&timestamp=1794880996&rt=sh&expires=24h&dp_logid=513890519109274147&file_type=txt&client_type=web&file_size=376\",\"hitpreview\":0},{\"category\":3,\"extent_int8\":0,\"fs_id\":14913370267910,\"isdir\":0,\"local_ctime\":1702790641,\"local_mtime\":1702790641,\"md5\":\"1ad38d837sed4b9bacda602b64a1ae7e\",\"path\":\"/罚抄存档/校园怪兽/校园怪兽.bmp\",\"server_ctime\":1703170709,\"server_filename\":\"校园怪兽.bmp\",\"server_mtime\":1703170760,\"size\":36918},{\"category\":6,\"extent_int8\":0,\"fs_id\":546308238013883,\"isdir\":0,\"local_ctime\":1702790641,\"local_mtime\":1702790646,\"md5\":\"aa0fe7d63kda115b8a72bd9c36600509\",\"path\":\"/罚抄存档/校园怪兽/校园怪兽.sav\",\"server_ctime\":1703170709,\"server_filename\":\"校园怪兽.sav\",\"server_mtime\":1703170760,\"size\":1975392}],\"cur_total\":3,\"show_msg\":\"success\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://pan.baidu.com/s/1hNGn9htG8eDtae_tB94FtA",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "text/html; charset=utf-8"
+        ]
+      ],
+      "body": "<!doctype html><!-- trimmed to the fields the module reads --><script>locals.mset({\"loginstate\":1,\"bdstoken\":\"0123456789abcdef0123456789abcdef\"});</script>"
+    },
+    {
+      "method": "GET",
+      "url": "https://pan.baidu.com/api/list?dir=%2Fzoo-downloader&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "{\"errno\":0,\"guid_info\":\"\",\"list\":[],\"request_id\":513891320185206094,\"guid\":0}"
+    },
+    {
+      "method": "POST",
+      "url": "https://pan.baidu.com/share/transfer?shareid=34532414525&from=1619240234&bdstoken=0123456789abcdef0123456789abcdef&ondup=newcopy&async=1&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "{\"errno\":0,\"extra\":{\"list\":[{\"to\":\"/zoo-downloader/看我.txt\"}]}}"
+    },
+    {
+      "method": "GET",
+      "url": "https://d.pcs.baidu.com/rest/2.0/pcs/file?method=locatedownload&app_id=250528&ver=4.0&path=%2Fzoo-downloader%2F%E7%9C%8B%E6%88%91.txt",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "text/plain; charset=utf-8"
+        ]
+      ],
+      "body": "{\"urls\":[{\"url\":\"https://qdall01.baidupcs.com/file/707af1b00i9508965c3b4e384c05aeed?fin=%E7%9C%8B%E6%88%91.txt\"}]}"
+    }
+  ],
+  "credentials": [
+    "BDUSS",
+    "STOKEN"
+  ]
+}

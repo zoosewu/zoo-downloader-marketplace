@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getFileStatus",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"name\":\"album\",\"is_available\":true,\"is_folder\":true,\"size\":0}"
+    }
+  ]
+}

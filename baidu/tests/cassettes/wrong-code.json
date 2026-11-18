@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://pan.baidu.com/share/verify?surl=NYF7FIdXZKEilWVGIsrihA&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "\n\n{\"errno\":-9,\"err_msg\":\"\",\"request_id\":471940028719546209}"
+    }
+  ],
+  "credentials": [
+    "BDUSS",
+    "STOKEN"
+  ]
+}

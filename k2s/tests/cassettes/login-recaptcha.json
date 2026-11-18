@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/login",
+      "status": 406,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"error\",\"code\":406,\"errorCode\":33,\"message\":\"Please verify your request via re captcha challenge\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/requestReCaptcha",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"challenge\":\"rc-1\",\"captcha_url\":\"https://keep2share.cc/api/v2/reCaptcha.html?id=rc-1\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://keep2share.cc/api/v2/reCaptcha.html?id=rc-1",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "text/html"
+        ]
+      ],
+      "body": "<html><body><div class=\"g-recaptcha\" data-sitekey=\"6LcYcN0SAAAAABtMlxKj7X0hRxOY8_2U86kI1vbb\"></div></body></html>"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/login",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"auth_token\":\"token-1\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getFileStatus",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"name\":\"holiday.mp4\",\"is_available\":true,\"is_folder\":false,\"size\":734003200,\"access\":\"public\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getUrl",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"url\":\"https://prx-1.keep2share.cc/a4b8776255578/holiday.mp4?temp_url_key=x\"}"
+    }
+  ],
+  "captchas": [
+    "recaptcha-token"
+  ],
+  "credentials": [
+    "password",
+    "username"
+  ]
+}

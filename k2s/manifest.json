@@ -1,0 +1,21 @@
+{
+  "$schema": "./types/manifest.schema.json",
+  "apiVersion": 1,
+  "id": "k2s",
+  "name": "Keep2Share",
+  "version": "1.0.0",
+  "description": "Downloads files shared on Keep2Share (k2s.cc). Free downloads ask for a captcha and wait a countdown; a premium account skips both.",
+  "urlPatterns": [
+    "https://k2s.cc/file/*",
+    "https://*.k2s.cc/file/*",
+    "https://keep2share.cc/file/*",
+    "https://*.keep2share.cc/file/*"
+  ],
+  "permissions": {
+    "network": { "allowDomains": ["keep2share.cc", "k2s.cc"] },
+    "credentials": [
+      { "key": "username", "label": "Email", "secret": false, "optional": true },
+      { "key": "password", "label": "Password", "optional": true }
+    ]
+  }
+}

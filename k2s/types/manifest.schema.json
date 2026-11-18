@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoo-downloader.dev/schemas/module-manifest-v1.json",
+  "title": "zoo-downloader site module manifest",
+  "description": "manifest.json of a zoo-downloader site module (API level 2). The user sees name, description and the permissions before installing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "id", "name", "version", "urlPatterns", "permissions"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Path or URL of this schema, for editor completion. Ignored by the app."
+    },
+    "apiVersion": {
+      "const": 2,
+      "description": "The API level the module is written against: this SDK's (2). An app runs every level from the oldest it supports up to its own, so a module on a newer level than an app shows there as needing a newer Zoo Downloader. Level 2 added credentialsHelp, help, helpUrl and translated labels."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,62}$",
+      "description": "Unique within its marketplace; lowercase letters, digits and '-'. Installed modules are identified as id@marketplace.",
+      "examples": ["k2s", "example-host"]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "Display name.",
+      "examples": ["Keep2Share"]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-[0-9A-Za-z.-]+)?$",
+      "description": "Semantic version (MAJOR.MINOR.PATCH).",
+      "examples": ["1.0.0"]
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "One or two sentences shown in the module list."
+    },
+    "author": { "type": "string", "maxLength": 100 },
+    "homepage": { "type": "string", "pattern": "^https?://", "description": "Where users can read about or report problems with the module." },
+    "entry": {
+      "type": "string",
+      "default": "dist/index.js",
+      "pattern": "^[^/\\\\][^\\\\]*\\.js$",
+      "description": "Relative path of the bundled single-file ES module."
+    },
+    "urlPatterns": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Share-page URLs this module resolves. '*' matches any run of characters; a host starting with '*.' also matches subdomains. Matching never runs module code.",
+      "items": {
+        "type": "string",
+        "pattern": "^https?://[^/]+/",
+        "examples": ["https://k2s.cc/file/*", "https://*.k2s.cc/file/*"]
+      }
+    },
+    "urlRegex": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional. Narrows urlPatterns: a URL must also match this regular expression (Rust regex syntax: no lookaround or backreferences). The fragment is removed first.",
+      "examples": ["^https://k2s\\.cc/file/[0-9a-f]{13}(/|$)"]
+    },
+    "autoStart": {
+      "type": "boolean",
+      "default": false,
+      "description": "A copied link may start downloading at once instead of opening the add-download page, when the user allows it. Leave false for sites that usually ask for a captcha."
+    },
+    "credentialsHelp": {
+      "$ref": "#/$defs/longHelp",
+      "description": "Optional. Shown above the account fields: where the values come from (e.g. which page to sign in to)."
+    },
+    "credentialsHelpUrl": {
+      "$ref": "#/$defs/helpUrl",
+      "description": "Optional. A page explaining the account fields further; the user opens it from the account dialog."
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["network"],
+      "description": "Everything the module may do beyond computing. Shown to the user for consent; asking for more in an update requires consent again.",
+      "properties": {
+        "network": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["allowDomains"],
+          "properties": {
+            "allowDomains": {
+              "type": "array",
+              "uniqueItems": true,
+              "description": "Hosts fetch may reach. Each entry also covers its subdomains ('k2s.cc' covers 'api.k2s.cc'). No schemes, paths or ports. Private and local addresses are always blocked.",
+              "items": {
+                "type": "string",
+                "pattern": "^(\\*\\.)?[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)+$",
+                "examples": ["k2s.cc", "keep2share.cc"]
+              }
+            }
+          }
+        },
+        "credentials": {
+          "type": "array",
+          "description": "Account fields the user is asked for. The module only ever sees placeholders (zoo.credentials.placeholder).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "label"],
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_]+$",
+                "description": "Name used in zoo.credentials.placeholder(key).",
+                "examples": ["username", "password", "apiKey"]
+              },
+              "label": { "$ref": "#/$defs/label", "description": "Field label shown to the user." },
+              "secret": { "type": "boolean", "default": true, "description": "Mask the input (passwords, API keys)." },
+              "optional": { "type": "boolean", "default": false, "description": "The module works without it (e.g. free downloads); check zoo.credentials.has(key)." },
+              "help": { "$ref": "#/$defs/help", "description": "Optional. Shown under the field: how to get the value." },
+              "helpUrl": { "$ref": "#/$defs/helpUrl", "description": "Optional. A page explaining how to get this value." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "label": { "$ref": "#/$defs/text", "$comment": "at most 80 characters: maxLength for a string, additionalProperties for one per language", "maxLength": 80, "additionalProperties": { "maxLength": 80 } },
+    "help": { "$ref": "#/$defs/text", "$comment": "at most 300 characters: maxLength for a string, additionalProperties for one per language", "maxLength": 300, "additionalProperties": { "maxLength": 300 } },
+    "longHelp": { "$ref": "#/$defs/text", "$comment": "at most 500 characters: maxLength for a string, additionalProperties for one per language", "maxLength": 500, "additionalProperties": { "maxLength": 500 } },
+    "text": {
+      "description": "Text shown to the user: one string, or one per language, e.g. { \"en\": \"Password\", \"zh-TW\": \"密碼\", \"ja\": \"パスワード\" }. The app shows the user's language, else en, else the first. Line breaks (\n) and spaces are shown as written.",
+      "anyOf": [
+        { "$ref": "#/$defs/line" },
+        {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$" },
+          "additionalProperties": { "$ref": "#/$defs/line" }
+        }
+      ]
+    },
+    "line": { "type": "string", "minLength": 1, "pattern": "\\S" },
+    "helpUrl": { "type": "string", "pattern": "^https://\\S+$" }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getFileStatus",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"name\":\"holiday.mp4\",\"is_available\":true,\"is_folder\":false,\"size\":734003200,\"access\":\"public\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getUrl",
+      "status": 406,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"error\",\"code\":406,\"errorCode\":30,\"message\":\"Captcha required\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/requestCaptcha",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"challenge\":\"chal-1\",\"captcha_url\":\"https://keep2share.cc/api/v2/captcha?id=chal-1\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://keep2share.cc/api/v2/captcha?id=chal-1",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "image/jpeg"
+        ]
+      ],
+      "bodyBase64": "/9j/4AAQSkZJRgABAQ=="
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getUrl",
+      "status": 406,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"error\",\"code\":406,\"errorCode\":41,\"message\":\"Please wait to download this file\",\"time_wait\":3600}"
+    }
+  ],
+  "captchas": [
+    "k2x9"
+  ]
+}

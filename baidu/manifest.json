@@ -1,0 +1,35 @@
+{
+  "$schema": "./types/manifest.schema.json",
+  "apiVersion": 2,
+  "id": "baidu",
+  "name": "百度网盘",
+  "version": "1.1.1",
+  "description": "Downloads files shared on Baidu Netdisk (pan.baidu.com/s/...?pwd=...), single files or whole folders. Needs your login cookies: each file is saved to /zoo-downloader in your netdisk before it downloads, and files saved there more than 8 hours ago are deleted on later downloads.",
+  "urlPatterns": [
+    "https://pan.baidu.com/s/*",
+    "https://pan.baidu.com/share/init*"
+  ],
+  "autoStart": true,
+  "credentialsHelp": {
+    "zh-TW": "1. 在瀏覽器登入 pan.baidu.com\n2. 按 F12 開啟開發人員工具 →「應用程式」(Application) →「Cookie」→ https://pan.baidu.com\n3. 找到下面兩個名稱，把「值」(Value) 整段複製貼上\n\n登出百度後會失效，到時再複製一次。",
+    "en": "1. Sign in at pan.baidu.com in your browser\n2. Press F12 → Application → Cookies → https://pan.baidu.com\n3. Find the two names below and copy their whole Value\n\nSigning out of Baidu makes them stop working; copy them again then.",
+    "ja": "1. ブラウザーで pan.baidu.com にログイン\n2. F12 →「アプリケーション」(Application) →「Cookie」→ https://pan.baidu.com\n3. 下の 2 つの名前を探し、「値」(Value) をすべてコピーして貼り付け\n\nBaidu からログアウトすると無効になるので、そのときはもう一度コピーしてください。"
+  },
+  "permissions": {
+    "network": {
+      "allowDomains": ["baidu.com"]
+    },
+    "credentials": [
+      {
+        "key": "BDUSS",
+        "label": "BDUSS",
+        "help": { "zh-TW": "名稱為 BDUSS 的 cookie 的值", "en": "The Value of the cookie named BDUSS", "ja": "名前が BDUSS の Cookie の値" }
+      },
+      {
+        "key": "STOKEN",
+        "label": "STOKEN",
+        "help": { "zh-TW": "名稱為 STOKEN 的 cookie 的值", "en": "The Value of the cookie named STOKEN", "ja": "名前が STOKEN の Cookie の値" }
+      }
+    ]
+  }
+}

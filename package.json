@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.21.0",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "catalog": "node scripts/catalog.mjs",
+    "sdk": "node scripts/sdk.mjs",
+    "typecheck": "node scripts/typecheck.mjs",
+    "check": "node scripts/build.mjs --check && node scripts/catalog.mjs --check && node scripts/sdk.mjs --check && node scripts/typecheck.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "typescript": "~7.0.2"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "official",
+  "owner": "zoo-downloader",
+  "modules": [
+    {
+      "id": "k2s",
+      "version": "1.0.0",
+      "apiVersion": 1,
+      "source": "k2s",
+      "description": "Keep2Share (k2s.cc)",
+      "sha256": "57d082f0559baa6fcf6fec56b3cfdcd4c9f858e4ccdeb13f62fbbfb63c462689"
+    },
+    {
+      "id": "baidu",
+      "version": "1.1.1",
+      "apiVersion": 2,
+      "source": "baidu",
+      "description": "百度网盘 (pan.baidu.com share links)",
+      "sha256": "028003c19ab7db0086e8a8fc7e6e867fd687ac376cf7e51245e828e206cf8c3d"
+    }
+  ]
+}

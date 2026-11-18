@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://pan.baidu.com/share/verify?surl=NYF7FIdXZKEilWVGIsrihA&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "\n\n{\"errno\":0,\"err_msg\":\"\",\"request_id\":471952992420465200,\"randsk\":\"5Yej3JWAKH1HCsh%2FT29HL5NkGfoA%2FXC1hfDd%2Fwzv29o%3D\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://pan.baidu.com/share/list?shorturl=NYF7FIdXZKEilWVGIsrihA&dir=&root=1&page=1&num=100&order=time&desc=1&showempty=0&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "{\"errno\":0,\"request_id\":471953035602439230,\"server_time\":1794724765,\"cfrom_id\":0,\"hitrisk\":0,\"appeal_status\":0,\"is_zombie\":0,\"vip_point\":20400,\"vip_level\":5,\"svip10_id\":\"\",\"vip_type\":2,\"sharetype\":0,\"view_visited\":0,\"view_limit\":0,\"expired_type\":30,\"title\":\"\\/fx\\/qr256.rar\",\"list\":[{\"category\":\"6\",\"extent_int8\":\"0\",\"fs_id\":\"172521208389475\",\"isdir\":\"0\",\"local_ctime\":\"1793436172\",\"local_mtime\":\"1793480840\",\"md5\":\"43d610b62gc2f9bcd820e094872b4ba5\",\"path\":\"\\/fx\\/qr256.rar\",\"server_ctime\":\"1793495029\",\"server_filename\":\"qr256.rar\",\"server_mtime\":\"1793495029\",\"size\":\"1346155570\"}],\"cur_total\":1,\"share_id\":45078932193,\"uk\":69747692,\"is_webmaster\":false,\"show_msg\":\"success\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://pan.baidu.com/s/1NYF7FIdXZKEilWVGIsrihA",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "text/html; charset=utf-8"
+        ]
+      ],
+      "body": "<!doctype html><!-- trimmed to the fields the module reads --><script>locals.mset({\"loginstate\":1,\"bdstoken\":\"0123456789abcdef0123456789abcdef\"});</script>"
+    },
+    {
+      "method": "GET",
+      "url": "https://pan.baidu.com/api/list?dir=%2Fzoo-downloader&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "{\"errno\":0,\"guid_info\":\"\",\"list\":[],\"request_id\":471953753872965821,\"guid\":0}"
+    },
+    {
+      "method": "POST",
+      "url": "https://pan.baidu.com/share/transfer?shareid=45078932193&from=69747692&bdstoken=0123456789abcdef0123456789abcdef&ondup=newcopy&async=1&channel=chunlei&web=1&app_id=250528&clienttype=0",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json; charset=UTF-8"
+        ]
+      ],
+      "body": "{\"errno\":0,\"extra\":{\"list\":[{\"from\":\"/qr256.rar\",\"from_fs_id\":172521208389475,\"to\":\"/zoo-downloader/qr256.rar\",\"to_fs_id\":946907699655618}]},\"info\":[{\"errno\":0,\"fsid\":172521208389475,\"path\":\"/qr256.rar\"}],\"newno\":\"\",\"request_id\":2974147453745666393,\"show_msg\":\"\",\"task_id\":0}"
+    },
+    {
+      "method": "GET",
+      "url": "https://d.pcs.baidu.com/rest/2.0/pcs/file?method=locatedownload&app_id=250528&ver=4.0&path=%2Fzoo-downloader%2Fqr256.rar",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "text/plain; charset=utf-8"
+        ]
+      ],
+      "body": "{\"urls\":[{\"url\":\"https://qdall01.baidupcs.com/file/43d610b62gc2f9bcd820e094872b4ba5?fin=qr256.rar\"}]}"
+    }
+  ],
+  "credentials": [
+    "BDUSS",
+    "STOKEN"
+  ]
+}

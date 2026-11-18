@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getFileStatus",
+      "status": 404,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"error\",\"code\":404,\"errorCode\":20,\"message\":\"File not found\"}"
+    }
+  ]
+}

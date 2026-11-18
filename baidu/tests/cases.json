@@ -1,0 +1,48 @@
+[
+  {
+    "name": "single-file",
+    "url": "https://pan.baidu.com/s/1NYF7FIdXZKEilWVGIsrihA?pwd=cdby",
+    "expect": {
+      "url": "https://*.baidupcs.com/file/*",
+      "filename": "qr256.rar"
+    }
+  },
+  {
+    "name": "wrong-code",
+    "url": "https://pan.baidu.com/s/1NYF7FIdXZKEilWVGIsrihA?pwd=zzzz",
+    "expect": {
+      "error": "wrong extraction code"
+    }
+  },
+  {
+    "name": "folder-list",
+    "url": "https://pan.baidu.com/s/1hNGn9htG8eDtae_tB94FtA?pwd=cfuf",
+    "list": true,
+    "expect": {
+      "count": 13,
+      "files": [
+        "罚抄存档/看我.txt",
+        "罚抄存档/The Theater of Love and Tears The Battle of Tomoko the Ultimate Shikigami/看我.txt",
+        "罚抄存档/The Theater of Love and Tears The Battle of Tomoko the Ultimate Shikigami/爱与泪的剧场·式神知子的最终决战.bmp",
+        "罚抄存档/The Theater of Love and Tears The Battle of Tomoko the Ultimate Shikigami/爱与泪的剧场·式神知子的最终决战.sav",
+        "罚抄存档/校园怪兽/看我.txt",
+        "罚抄存档/校园怪兽/校园怪兽.bmp",
+        "罚抄存档/校园怪兽/校园怪兽.sav",
+        "罚抄存档/Proof of Paranormal Phenomena/欧派线.sav",
+        "罚抄存档/Proof of Paranormal Phenomena/欧派线.bmp",
+        "罚抄存档/Proof of Paranormal Phenomena/看我.txt",
+        "罚抄存档/Say it with flowers/小鸟种子.bmp",
+        "罚抄存档/Say it with flowers/看我.txt",
+        "罚抄存档/Say it with flowers/小鸟种子.sav"
+      ]
+    }
+  },
+  {
+    "name": "folder-file",
+    "url": "https://pan.baidu.com/s/1hNGn9htG8eDtae_tB94FtA?pwd=cfuf#path=%E7%BD%9A%E6%8A%84%E5%AD%98%E6%A1%A3%2F%E6%A0%A1%E5%9B%AD%E6%80%AA%E5%85%BD%2F%E7%9C%8B%E6%88%91.txt",
+    "expect": {
+      "url": "https://*.baidupcs.com/file/*",
+      "filename": "看我.txt"
+    }
+  }
+]

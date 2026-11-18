@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/login",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"auth_token\":\"token-1\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getFileStatus",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"name\":\"holiday.mp4\",\"is_available\":true,\"is_folder\":false,\"size\":734003200,\"access\":\"public\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getUrl",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"url\":\"https://prx-1.keep2share.cc/a4b8776255578/holiday.mp4?temp_url_key=x\"}"
+    }
+  ],
+  "credentials": [
+    "password",
+    "username"
+  ]
+}
