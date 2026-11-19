@@ -34,3 +34,7 @@ To use a newer level: `pnpm sdk <zoo-downloader commit or tag>`, then raise `api
 modules that use it. See the app's `docs/architecture/module-versions.md`.
 
 Never commit `.credentials.json` (your own accounts for recording tests).
+
+## License
+
+The code is licensed under the [GNU AGPL-3.0](LICENSE).
