@@ -38,3 +38,8 @@ Never commit `.credentials.json` (your own accounts for recording tests).
 ## License
 
 The code is licensed under the [GNU AGPL-3.0](LICENSE).
+
+## Contributing
+
+Pull requests need the [Contributor License Agreement](CLA.md) signed once: the CLA check comments on
+your first pull request and tells you how.
