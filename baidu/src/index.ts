@@ -56,14 +56,35 @@ interface Entry {
 
 const isDir = (e: Entry) => Number(e.isdir) === 1;
 
-/** `/s/1<surl>` or `/share/init?surl=<surl>`; the API wants the surl without the leading 1. */
-function shareOf(url: string, zoo: Zoo): { surl: string; pwd?: string; path?: string } {
+/** A path inside the share, `a/b`: without the slashes around it and without the
+ * `/sharelink<uk>-<id>` root Baidu's own pages put in front. */
+function insideShare(path: string): string | undefined {
+  const parts = decodeURIComponent(path).split('/').filter(Boolean);
+  if (/^sharelink\d+-\d+$/.test(parts[0] ?? '')) parts.shift();
+  return parts.length ? parts.join('/') : undefined;
+}
+
+/** Every form of share link (pan. or yun.baidu.com, http or https):
+ *   /s/1<surl>              the share page, `?pwd=<code>` when the sharer included it
+ *   /share/init?surl=<surl> where Baidu sends a share page that wants a code
+ *   /wap/init?surl=<surl>   the mobile page
+ * and what follows `#`:
+ *   #path=<a/b.txt>         one file of the share (what `list` returns)
+ *   #list/path=<a/b>        a folder opened on Baidu's page: `list` lists just that folder
+ * The API wants the surl without the leading 1. */
+function shareOf(url: string, zoo: Zoo): { surl: string; pwd?: string; path?: string; folder?: string } {
   const u = new URL(url);
   const fromPath = /^\/s\/1([\w-]+)/.exec(u.pathname)?.[1];
   const surl = fromPath ?? u.searchParams.get('surl') ?? undefined;
   if (!surl) throw zoo.fail('this is not a Baidu Netdisk share link', { hint: 'copy the whole link, like https://pan.baidu.com/s/1...?pwd=...' });
   const path = /^#path=(.+)$/.exec(u.hash)?.[1];
-  return { surl, pwd: u.searchParams.get('pwd') ?? undefined, path: path === undefined ? undefined : decodeURIComponent(path) };
+  const folder = /^#list\/path=([^&]+)/.exec(u.hash)?.[1];
+  return {
+    surl,
+    pwd: u.searchParams.get('pwd')?.trim() || undefined,
+    path: path === undefined ? undefined : decodeURIComponent(path),
+    folder: folder === undefined ? undefined : insideShare(folder),
+  };
 }
 
 /** The meaning of the errno values seen on these endpoints, with what the user can do. */
@@ -98,7 +119,7 @@ async function openShare(url: string, zoo: Zoo) {
       hint: 'in a browser logged in to pan.baidu.com, copy the BDUSS and STOKEN cookies into Settings > Site modules > 百度网盘',
     });
   }
-  const { surl, pwd, path } = shareOf(url, zoo);
+  const { surl, pwd, path, folder } = shareOf(url, zoo);
   const sharePage = `${PAN}/s/1${surl}`;
   const login = `BDUSS=${zoo.credentials.placeholder('BDUSS')}; STOKEN=${zoo.credentials.placeholder('STOKEN')}`;
   // The share's password cookie (BDCLND) goes with the login cookies once verified.
@@ -172,7 +193,21 @@ async function openShare(url: string, zoo: Zoo) {
   };
   const top = await listDir();
 
-  /** The file at `path` inside the share (`a/b.txt`), or the only file of a one-file share. */
+  /** The file or folder at `path` inside the share (`a/b.txt`), if it is there. */
+  const at = async (path: string): Promise<Entry | undefined> => {
+    let entries = top;
+    const parts = path.split('/');
+    for (const [i, name] of parts.entries()) {
+      const entry = entries.find((e) => e.server_filename === name);
+      if (!entry || i === parts.length - 1) return entry;
+      if (!isDir(entry)) return undefined;
+      entries = await listDir(entry.path);
+    }
+  };
+  const gone = (path: string) =>
+    zoo.fail(`${path} is no longer in the share`, { hint: 'the sharer may have removed or renamed it; add the link again' });
+
+  /** The file at `path` inside the share, or the only file of a one-file share. */
   const find = async (path?: string): Promise<Entry> => {
     if (path === undefined) {
       if (top.length === 1 && !isDir(top[0])) return top[0];
@@ -180,29 +215,33 @@ async function openShare(url: string, zoo: Zoo) {
         hint: 'add the link in the add-download window to pick its files',
       });
     }
-    let entries = top;
-    const parts = path.split('/');
-    for (const [i, name] of parts.entries()) {
-      const entry = entries.find((e) => e.server_filename === name);
-      if (!entry) break;
-      if (i === parts.length - 1) {
-        if (!isDir(entry)) return entry;
-        break;
-      }
-      entries = await listDir(entry.path);
-    }
-    throw zoo.fail(`${path} is no longer in the share`, { hint: 'the sharer may have removed or renamed it; add the link again' });
+    const entry = await at(path);
+    if (!entry || isDir(entry)) throw gone(path);
+    return entry;
   };
 
-  return { web, sharePage, login, cookie: () => cookie, share: () => share!, top, listDir, find, path, base: url.split('#')[0] };
+  /** What `list` starts from: the whole share, or the folder the link opened. */
+  const start = async (): Promise<{ entries: Entry[]; folder: string }> => {
+    if (folder === undefined) return { entries: top, folder: '' };
+    const entry = await at(folder);
+    if (!entry || !isDir(entry)) throw gone(folder);
+    return { entries: await listDir(entry.path), folder };
+  };
+
+  // One form for every link to this share, so a file's link names it the same way each time.
+  const base = `${PAN}/s/1${surl}${pwd ? `?pwd=${encodeURIComponent(pwd)}` : ''}`;
+  return { web, sharePage, login, cookie: () => cookie, share: () => share!, listDir, find, start, path, base };
 }
 
 export default defineModule({
   async list(url, zoo) {
     const s = await openShare(url, zoo);
     const files: Listed[] = [];
+    const root = await s.start();
+    // A folder opened on Baidu's page is downloaded as itself: its parents are left out.
+    const parent = root.folder.includes('/') ? root.folder.slice(0, root.folder.lastIndexOf('/') + 1) : '';
     // Breadth first, so the files at the top come first.
-    const folders: { entries: Entry[]; folder: string }[] = [{ entries: s.top, folder: '' }];
+    const folders = [root];
     for (let next = folders.shift(); next; next = folders.shift()) {
       for (const entry of next.entries) {
         const inside = next.folder ? `${next.folder}/${entry.server_filename}` : entry.server_filename;
@@ -217,7 +256,7 @@ export default defineModule({
           url: `${s.base}#path=${encodeURIComponent(inside)}`,
           filename: entry.server_filename,
           size: Number(entry.size),
-          folder: next.folder || undefined,
+          folder: next.folder.slice(parent.length) || undefined,
         });
       }
     }

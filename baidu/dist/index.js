@@ -16,13 +16,24 @@ var CODE = {
 };
 var WRONG_CODE = { en: "Wrong extraction code", "zh-TW": "\u63D0\u53D6\u78BC\u4E0D\u6B63\u78BA", "zh-CN": "\u63D0\u53D6\u7801\u4E0D\u6B63\u786E", ja: "\u62BD\u51FA\u30B3\u30FC\u30C9\u304C\u9055\u3044\u307E\u3059" };
 var isDir = (e) => Number(e.isdir) === 1;
+function insideShare(path) {
+  const parts = decodeURIComponent(path).split("/").filter(Boolean);
+  if (/^sharelink\d+-\d+$/.test(parts[0] ?? "")) parts.shift();
+  return parts.length ? parts.join("/") : void 0;
+}
 function shareOf(url, zoo) {
   const u = new URL(url);
   const fromPath = /^\/s\/1([\w-]+)/.exec(u.pathname)?.[1];
   const surl = fromPath ?? u.searchParams.get("surl") ?? void 0;
   if (!surl) throw zoo.fail("this is not a Baidu Netdisk share link", { hint: "copy the whole link, like https://pan.baidu.com/s/1...?pwd=..." });
   const path = /^#path=(.+)$/.exec(u.hash)?.[1];
-  return { surl, pwd: u.searchParams.get("pwd") ?? void 0, path: path === void 0 ? void 0 : decodeURIComponent(path) };
+  const folder = /^#list\/path=([^&]+)/.exec(u.hash)?.[1];
+  return {
+    surl,
+    pwd: u.searchParams.get("pwd")?.trim() || void 0,
+    path: path === void 0 ? void 0 : decodeURIComponent(path),
+    folder: folder === void 0 ? void 0 : insideShare(folder)
+  };
 }
 function failure(step, reply, zoo) {
   const said = reply.show_msg ? ` (${reply.show_msg})` : "";
@@ -51,7 +62,7 @@ async function openShare(url, zoo) {
       hint: "in a browser logged in to pan.baidu.com, copy the BDUSS and STOKEN cookies into Settings > Site modules > \u767E\u5EA6\u7F51\u76D8"
     });
   }
-  const { surl, pwd, path } = shareOf(url, zoo);
+  const { surl, pwd, path, folder } = shareOf(url, zoo);
   const sharePage = `${PAN}/s/1${surl}`;
   const login = `BDUSS=${zoo.credentials.placeholder("BDUSS")}; STOKEN=${zoo.credentials.placeholder("STOKEN")}`;
   let cookie = login;
@@ -114,6 +125,17 @@ async function openShare(url, zoo) {
     }
   };
   const top = await listDir();
+  const at = async (path2) => {
+    let entries = top;
+    const parts = path2.split("/");
+    for (const [i, name] of parts.entries()) {
+      const entry = entries.find((e) => e.server_filename === name);
+      if (!entry || i === parts.length - 1) return entry;
+      if (!isDir(entry)) return void 0;
+      entries = await listDir(entry.path);
+    }
+  };
+  const gone = (path2) => zoo.fail(`${path2} is no longer in the share`, { hint: "the sharer may have removed or renamed it; add the link again" });
   const find = async (path2) => {
     if (path2 === void 0) {
       if (top.length === 1 && !isDir(top[0])) return top[0];
@@ -121,26 +143,26 @@ async function openShare(url, zoo) {
         hint: "add the link in the add-download window to pick its files"
       });
     }
-    let entries = top;
-    const parts = path2.split("/");
-    for (const [i, name] of parts.entries()) {
-      const entry = entries.find((e) => e.server_filename === name);
-      if (!entry) break;
-      if (i === parts.length - 1) {
-        if (!isDir(entry)) return entry;
-        break;
-      }
-      entries = await listDir(entry.path);
-    }
-    throw zoo.fail(`${path2} is no longer in the share`, { hint: "the sharer may have removed or renamed it; add the link again" });
+    const entry = await at(path2);
+    if (!entry || isDir(entry)) throw gone(path2);
+    return entry;
   };
-  return { web, sharePage, login, cookie: () => cookie, share: () => share, top, listDir, find, path, base: url.split("#")[0] };
+  const start = async () => {
+    if (folder === void 0) return { entries: top, folder: "" };
+    const entry = await at(folder);
+    if (!entry || !isDir(entry)) throw gone(folder);
+    return { entries: await listDir(entry.path), folder };
+  };
+  const base = `${PAN}/s/1${surl}${pwd ? `?pwd=${encodeURIComponent(pwd)}` : ""}`;
+  return { web, sharePage, login, cookie: () => cookie, share: () => share, listDir, find, start, path, base };
 }
 var index_default = defineModule({
   async list(url, zoo) {
     const s = await openShare(url, zoo);
     const files = [];
-    const folders = [{ entries: s.top, folder: "" }];
+    const root = await s.start();
+    const parent = root.folder.includes("/") ? root.folder.slice(0, root.folder.lastIndexOf("/") + 1) : "";
+    const folders = [root];
     for (let next = folders.shift(); next; next = folders.shift()) {
       for (const entry of next.entries) {
         const inside = next.folder ? `${next.folder}/${entry.server_filename}` : entry.server_filename;
@@ -155,7 +177,7 @@ var index_default = defineModule({
           url: `${s.base}#path=${encodeURIComponent(inside)}`,
           filename: entry.server_filename,
           size: Number(entry.size),
-          folder: next.folder || void 0
+          folder: next.folder.slice(parent.length) || void 0
         });
       }
     }

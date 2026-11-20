@@ -6,9 +6,13 @@
   "version": "1.2.0",
   "description": "Downloads files shared on Baidu Netdisk (pan.baidu.com/s/...?pwd=...), single files or whole folders; asks for the extraction code when the link has none. Needs your login cookies: each file is saved to /zoo-downloader in your netdisk before it downloads, and files saved there more than 8 hours ago are deleted on later downloads.",
   "urlPatterns": [
-    "https://pan.baidu.com/s/*",
-    "https://pan.baidu.com/share/init*"
+    "https://*.baidu.com/s/*",
+    "https://*.baidu.com/share/init*",
+    "https://*.baidu.com/wap/init*",
+    "http://*.baidu.com/s/*",
+    "http://*.baidu.com/share/init*"
   ],
+  "urlRegex": "^https?://(pan|yun)\\.baidu\\.com/",
   "autoStart": true,
   "credentialsHelp": {
     "zh-TW": "1. 在瀏覽器登入 pan.baidu.com\n2. 按 F12 開啟開發人員工具 →「應用程式」(Application) →「Cookie」→ https://pan.baidu.com\n3. 找到下面兩個名稱，把「值」(Value) 整段複製貼上\n\n登出百度後會失效，到時再複製一次。",
