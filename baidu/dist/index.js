@@ -8,6 +8,13 @@ var BROWSER = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHT
 var CLIENT = "netdisk;7.42.0.5;PC;PC-Windows;10.0.22631;WindowsBaiduYunGuanJia";
 var PAGE = 100;
 var MAX_FILES = 1e3;
+var CODE = {
+  en: "Extraction code (\u63D0\u53D6\u7801) of this Baidu Netdisk share",
+  "zh-TW": "\u9019\u500B\u767E\u5EA6\u7DB2\u76E4\u5206\u4EAB\u7684\u63D0\u53D6\u78BC",
+  "zh-CN": "\u8FD9\u4E2A\u767E\u5EA6\u7F51\u76D8\u5206\u4EAB\u7684\u63D0\u53D6\u7801",
+  ja: "\u3053\u306E\u767E\u5EA6\u7DB2\u76E4\u5171\u6709\u306E\u62BD\u51FA\u30B3\u30FC\u30C9\uFF08\u63D0\u53D6\u7801\uFF09"
+};
+var WRONG_CODE = { en: "Wrong extraction code", "zh-TW": "\u63D0\u53D6\u78BC\u4E0D\u6B63\u78BA", "zh-CN": "\u63D0\u53D6\u7801\u4E0D\u6B63\u786E", ja: "\u62BD\u51FA\u30B3\u30FC\u30C9\u304C\u9055\u3044\u307E\u3059" };
 var isDir = (e) => Number(e.isdir) === 1;
 function shareOf(url, zoo) {
   const u = new URL(url);
@@ -65,17 +72,40 @@ async function openShare(url, zoo) {
       throw zoo.fail(`Baidu Netdisk answered HTTP ${response.status} without JSON`, { hint: "the site may be down or blocking this network; try again later" });
     }
   };
-  if (pwd) {
-    const verify = await web(`/share/verify?surl=${surl}&${WEB}`, { form: { pwd, vcode: "", vcode_str: "" } });
+  let unlocked = false;
+  const unlock = async (code) => {
+    const verify = await web(`/share/verify?surl=${surl}&${WEB}`, { form: { pwd: code, vcode: "", vcode_str: "" } });
+    if (verify.errno === -9) return false;
     if (verify.errno !== 0 || typeof verify.randsk !== "string") throw failure("verify", verify, zoo);
     cookie = `${login}; BDCLND=${verify.randsk}`;
-  }
+    unlocked = true;
+    return true;
+  };
+  const askForCode = async (wrong) => {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const error = wrong || attempt > 0 ? WRONG_CODE : void 0;
+      let code;
+      try {
+        code = await zoo.ask({ id: "pwd", message: CODE, remember: true, error });
+      } catch {
+        throw failure(error ? "verify" : "share listing", { errno: -9 }, zoo);
+      }
+      if (await unlock(code.trim())) return;
+    }
+    throw failure("verify", { errno: -9 }, zoo);
+  };
+  if (pwd && !await unlock(pwd)) await askForCode(true);
   let share;
   const listDir = async (dir) => {
     const entries = [];
     for (let page = 1; ; page++) {
       const where = dir === void 0 ? "dir=&root=1" : `dir=${encodeURIComponent(dir)}&root=0`;
       const reply = await web(`/share/list?shorturl=${surl}&${where}&page=${page}&num=${PAGE}&order=time&desc=1&showempty=0&${WEB}`);
+      if (reply.errno === -9 && !unlocked) {
+        await askForCode(false);
+        page--;
+        continue;
+      }
       if (reply.errno !== 0) throw failure("share listing", reply, zoo);
       if (dir === void 0 && page === 1) share = { id: reply.share_id, uk: reply.uk };
       const list = reply.list ?? [];

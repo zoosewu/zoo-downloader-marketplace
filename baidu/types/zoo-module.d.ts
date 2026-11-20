@@ -1,5 +1,5 @@
 /**
- * zoo-downloader site module API, level 2 (manifest `apiVersion`).
+ * zoo-downloader site module API, level 3 (manifest `apiVersion`).
  *
  * A site module is one ES module file whose default export is `defineModule({ resolve })`.
  * zoo-downloader calls `resolve` with a page URL the user pasted (one that matches the
@@ -12,7 +12,7 @@
  * - `fetch` can only reach hosts listed in manifest `permissions.network.allowDomains`
  *   (subdomains included), never private or local addresses. Cookies persist for the call.
  * - Each call runs in a fresh JavaScript context: no state survives between calls.
- * - A call has 30 s of time (excluding `zoo.wait` and captchas) and 128 MB of memory.
+ * - A call has 30 s of time (excluding `zoo.wait`, captchas and `zoo.ask`) and 128 MB of memory.
  *
  * @example
  * import { defineModule } from 'zoo-module';
@@ -123,6 +123,26 @@ declare module "zoo-module" {
     captcha: ZooCaptcha;
 
     /**
+     * Ask the user for something only they know, such as a share's extraction code, in a
+     * dialog. Resolves with what they typed; throws if they decline. Ask one thing per call;
+     * call it again for the next step. Time spent here does not count against the limit.
+     * Needs `"apiVersion": 3`.
+     *
+     * With `remember: true` the app keeps the answer for this download: later calls for it
+     * (retries, resuming, an expired link, the files of a listed share) get it back at once
+     * without asking. If the answer turns out wrong, ask again with `error`: that always asks.
+     * Captchas are never remembered; for values the user keeps for every download (an
+     * account), declare manifest `permissions.credentials` instead.
+     * @example
+     * let code = new URL(url).searchParams.get('pwd')
+     *   ?? (await zoo.ask({ id: 'pwd', message: { en: 'Extraction code', 'zh-TW': '提取碼' }, remember: true }));
+     * if (!(await verify(code))) {
+     *   code = await zoo.ask({ id: 'pwd', message: 'Extraction code', remember: true, error: 'Wrong code, try again' });
+     * }
+     */
+    ask(question: ZooQuestion): Promise<string>;
+
+    /**
      * Wait out a site countdown (e.g. "free users wait 30 seconds"). The app shows it; it does
      * not count against the time limit. At most 600 seconds per call to `wait`.
      * @example await zoo.wait(30, 'free download countdown');
@@ -158,6 +178,22 @@ declare module "zoo-module" {
      * await fetch('https://site.example/login', { method: 'POST', body });
      */
     placeholder(key: string): string;
+  }
+
+  /** Text for the user: one string, or one per language (`{ en: '...', 'zh-TW': '...' }`). */
+  export type ZooText = string | { [language: string]: string };
+
+  export interface ZooQuestion {
+    /** Names the question within this module (`pwd`): 1 to 64 letters, digits, `_` or `-`. */
+    id: string;
+    /** What to type, at most 300 characters. Line breaks are shown. */
+    message: ZooText;
+    /** Typed hidden. A remembered secret is kept only while the app runs, never saved. */
+    secret?: boolean;
+    /** Keep the answer for this download and give it again without asking. */
+    remember?: boolean;
+    /** Why the last answer did not work (shown above the field); always asks. */
+    error?: ZooText;
   }
 
   export interface ZooCaptcha {

@@ -1,4 +1,6 @@
 // Baidu Netdisk share links (pan.baidu.com/s/1<surl>?pwd=<code>), through the user's own account.
+// A link without its extraction code (or with a wrong one) asks the user for it (`zoo.ask`,
+// remembered for the download).
 //
 // The web API hands out download links for shared files only in encrypted form, so the file is
 // saved into the user's netdisk (FOLDER) and the desktop client's download API gives a plain
@@ -27,6 +29,13 @@ const CLIENT = 'netdisk;7.42.0.5;PC;PC-Windows;10.0.22631;WindowsBaiduYunGuanJia
 const PAGE = 100;
 /** The app takes at most this many files from one link. */
 const MAX_FILES = 1000;
+const CODE = {
+  en: 'Extraction code (提取码) of this Baidu Netdisk share',
+  'zh-TW': '這個百度網盤分享的提取碼',
+  'zh-CN': '这个百度网盘分享的提取码',
+  ja: 'この百度網盤共有の抽出コード（提取码）',
+};
+const WRONG_CODE = { en: 'Wrong extraction code', 'zh-TW': '提取碼不正確', 'zh-CN': '提取码不正确', ja: '抽出コードが違います' };
 
 interface Reply {
   errno: number;
@@ -113,11 +122,33 @@ async function openShare(url: string, zoo: Zoo) {
     }
   };
 
-  if (pwd) {
-    const verify = await web(`/share/verify?surl=${surl}&${WEB}`, { form: { pwd, vcode: '', vcode_str: '' } });
+  /** Try an extraction code: true if Baidu took it (its cookie now goes with every request). */
+  let unlocked = false;
+  const unlock = async (code: string): Promise<boolean> => {
+    const verify = await web(`/share/verify?surl=${surl}&${WEB}`, { form: { pwd: code, vcode: '', vcode_str: '' } });
+    if (verify.errno === -9) return false;
     if (verify.errno !== 0 || typeof verify.randsk !== 'string') throw failure('verify', verify, zoo);
     cookie = `${login}; BDCLND=${verify.randsk}`;
-  }
+    unlocked = true;
+    return true;
+  };
+  /** Ask the user for the code until Baidu takes it. Remembered for the download, so a retry
+   * or an expired link does not ask again; `wrong`: the code we had did not work. */
+  const askForCode = async (wrong: boolean) => {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const error = wrong || attempt > 0 ? WRONG_CODE : undefined;
+      let code: string;
+      try {
+        code = await zoo.ask({ id: 'pwd', message: CODE, remember: true, error });
+      } catch {
+        throw failure(error ? 'verify' : 'share listing', { errno: -9 }, zoo);
+      }
+      if (await unlock(code.trim())) return;
+    }
+    throw failure('verify', { errno: -9 }, zoo);
+  };
+
+  if (pwd && !(await unlock(pwd))) await askForCode(true);
 
   /** One folder of the share, every page; the top when `dir` is missing. */
   let share: { id: unknown; uk: unknown } | undefined;
@@ -126,6 +157,12 @@ async function openShare(url: string, zoo: Zoo) {
     for (let page = 1; ; page++) {
       const where = dir === undefined ? 'dir=&root=1' : `dir=${encodeURIComponent(dir)}&root=0`;
       const reply = await web(`/share/list?shorturl=${surl}&${where}&page=${page}&num=${PAGE}&order=time&desc=1&showempty=0&${WEB}`);
+      // A share with an extraction code the link does not carry: ask, then read this page again.
+      if (reply.errno === -9 && !unlocked) {
+        await askForCode(false);
+        page--;
+        continue;
+      }
       if (reply.errno !== 0) throw failure('share listing', reply, zoo);
       if (dir === undefined && page === 1) share = { id: reply.share_id, uk: reply.uk };
       const list = (reply.list as Entry[] | undefined) ?? [];

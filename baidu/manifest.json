@@ -1,10 +1,10 @@
 {
   "$schema": "./types/manifest.schema.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "id": "baidu",
   "name": "百度网盘",
-  "version": "1.1.1",
-  "description": "Downloads files shared on Baidu Netdisk (pan.baidu.com/s/...?pwd=...), single files or whole folders. Needs your login cookies: each file is saved to /zoo-downloader in your netdisk before it downloads, and files saved there more than 8 hours ago are deleted on later downloads.",
+  "version": "1.2.0",
+  "description": "Downloads files shared on Baidu Netdisk (pan.baidu.com/s/...?pwd=...), single files or whole folders; asks for the extraction code when the link has none. Needs your login cookies: each file is saved to /zoo-downloader in your netdisk before it downloads, and files saved there more than 8 hours ago are deleted on later downloads.",
   "urlPatterns": [
     "https://pan.baidu.com/s/*",
     "https://pan.baidu.com/share/init*"

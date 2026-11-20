@@ -12,11 +12,11 @@
     },
     {
       "id": "baidu",
-      "version": "1.1.1",
-      "apiVersion": 2,
+      "version": "1.2.0",
+      "apiVersion": 3,
       "source": "baidu",
       "description": "百度网盘 (pan.baidu.com share links)",
-      "sha256": "028003c19ab7db0086e8a8fc7e6e867fd687ac376cf7e51245e828e206cf8c3d"
+      "sha256": "d2d9384acdade6026d8ceda12312206e53ae31ec71cb71347b3b1413ff9823c8"
     }
   ]
 }
