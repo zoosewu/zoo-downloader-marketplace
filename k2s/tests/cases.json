@@ -65,5 +65,116 @@
     "expect": {
       "error": "free downloads are used up"
     }
+  },
+  {
+    "name": "subdomain",
+    "url": "https://www.k2s.cc/file/a4b8776255578/holiday.mp4",
+    "expect": {
+      "url": "https://*.keep2share.cc/*/holiday.mp4*",
+      "filename": "holiday.mp4"
+    }
+  },
+  {
+    "name": "keep2share-subdomain",
+    "url": "https://www.keep2share.cc/file/a4b8776255578",
+    "expect": {
+      "url": "https://*.keep2share.cc/*/holiday.mp4*",
+      "filename": "holiday.mp4"
+    }
+  },
+  {
+    "name": "http",
+    "url": "http://k2s.cc/file/a4b8776255578/holiday.mp4",
+    "expect": {
+      "url": "https://*.keep2share.cc/*/holiday.mp4*",
+      "filename": "holiday.mp4"
+    }
+  },
+  {
+    "name": "keep2share-http",
+    "url": "http://keep2share.cc/file/a4b8776255578",
+    "expect": {
+      "url": "https://*.keep2share.cc/*/holiday.mp4*",
+      "filename": "holiday.mp4"
+    }
+  },
+  {
+    "name": "premium-only-early",
+    "url": "https://k2s.cc/file/a4b8776255578/holiday.mp4",
+    "expect": {
+      "error": "only premium accounts"
+    }
+  },
+  {
+    "name": "key-expired",
+    "url": "https://k2s.cc/file/a4b8776255578/holiday.mp4",
+    "expect": {
+      "url": "https://*.keep2share.cc/*/holiday.mp4*",
+      "filename": "holiday.mp4"
+    }
+  },
+  {
+    "name": "folder-list",
+    "url": "https://k2s.cc/folder/f0lder1234",
+    "list": true,
+    "expect": {
+      "count": 2,
+      "files": [
+        "holiday.mp4",
+        "extras/making of.mp4"
+      ]
+    }
+  },
+  {
+    "name": "keep2share-folder",
+    "url": "https://keep2share.cc/folder/f0lder1234",
+    "list": true,
+    "expect": {
+      "count": 2,
+      "files": [
+        "holiday.mp4",
+        "extras/making of.mp4"
+      ]
+    }
+  },
+  {
+    "name": "tezfiles",
+    "url": "https://tezfiles.com/file/a4b8776255578/holiday.mp4",
+    "expect": {
+      "url": "https://*.keep2share.cc/*/holiday.mp4*",
+      "filename": "holiday.mp4"
+    }
+  },
+  {
+    "name": "tezfiles-folder",
+    "url": "https://tezfiles.com/folder/f0lder1234",
+    "list": true,
+    "expect": {
+      "count": 2,
+      "files": [
+        "holiday.mp4",
+        "extras/making of.mp4"
+      ]
+    }
+  },
+  {
+    "name": "fboom",
+    "url": "https://fboom.me/file/a4b8776255578/holiday.mp4",
+    "expect": {
+      "url": "https://*.keep2share.cc/*/holiday.mp4*",
+      "filename": "holiday.mp4"
+    }
+  },
+  {
+    "name": "fboom-folder",
+    "url": "https://fboom.me/folder/f0lder1234",
+    "list": true,
+    "expect": {
+      "count": 2,
+      "files": [
+        "holiday.mp4",
+        "extras/making of.mp4"
+      ]
+    }
   }
 ]

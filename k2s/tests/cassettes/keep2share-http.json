@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getFileStatus",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"name\":\"holiday.mp4\",\"is_available\":true,\"is_folder\":false,\"size\":734003200,\"access\":\"public\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getUrl",
+      "status": 406,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"error\",\"code\":406,\"errorCode\":30,\"message\":\"Captcha required\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/requestCaptcha",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"challenge\":\"chal-1\",\"captcha_url\":\"https://keep2share.cc/api/v2/captcha?id=chal-1\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://keep2share.cc/api/v2/captcha?id=chal-1",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "image/jpeg"
+        ]
+      ],
+      "bodyBase64": "/9j/4AAQSkZJRgABAQ=="
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getUrl",
+      "status": 406,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"error\",\"code\":406,\"errorCode\":31,\"message\":\"Captcha is invalid\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/requestCaptcha",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"challenge\":\"chal-2\",\"captcha_url\":\"https://keep2share.cc/api/v2/captcha?id=chal-2\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://keep2share.cc/api/v2/captcha?id=chal-2",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "image/jpeg"
+        ]
+      ],
+      "bodyBase64": "/9j/4AAQSkZJRgABAQ=="
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getUrl",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"free_download_key\":\"key-1\",\"time_wait\":30}"
+    },
+    {
+      "method": "POST",
+      "url": "https://keep2share.cc/api/v2/getUrl",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ]
+      ],
+      "body": "{\"status\":\"success\",\"code\":200,\"url\":\"https://prx-1.keep2share.cc/a4b8776255578/holiday.mp4?temp_url_key=x\"}"
+    }
+  ],
+  "captchas": [
+    "wrong",
+    "k2x9"
+  ]
+}
