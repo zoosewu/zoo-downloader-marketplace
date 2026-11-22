@@ -1,0 +1,19 @@
+{
+  "$schema": "./types/manifest.schema.json",
+  "apiVersion": 1,
+  "id": "katfile",
+  "name": "KatFile",
+  "version": "1.0.0",
+  "description": "Downloads files shared on KatFile (katfile.com). Free downloads need no captcha or countdown, but KatFile allows one every 2 hours, limits it to about 100 KB/s on a single connection, and it cannot be resumed.",
+  "urlPatterns": [
+    "https://katfile.com/*",
+    "https://www.katfile.com/*",
+    "http://katfile.com/*",
+    "http://www.katfile.com/*"
+  ],
+  "urlRegex": "^https?://(www\\.)?katfile\\.com/[a-z0-9]{12}([/?#.]|$)",
+  "autoStart": true,
+  "permissions": {
+    "network": { "allowDomains": ["katfile.com"] }
+  }
+}
