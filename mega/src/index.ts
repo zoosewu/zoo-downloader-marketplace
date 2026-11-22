@@ -23,7 +23,8 @@
 // /folder/<h>#<key>/file/<node> or /folder/<node>. The old #!<h>!<key> form is not handled: its
 // path is the home page's.
 //
-// Recorded from the live site 2026-11-22: tests/cassettes/*.json.
+// Recorded from the live site 2026-11-22: tests/cassettes/*.json (a file, a public folder without
+// subfolders and a file in it; the quota wait has not been met live).
 
 import { defineModule, type Listed, type Zoo } from 'zoo-module';
 import { decryptCbc, decryptEcb } from './aes';

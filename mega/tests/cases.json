@@ -39,5 +39,45 @@
     "expect": {
       "error": "not a whole MEGA link"
     }
+  },
+  {
+    "name": "folder-list",
+    "url": "https://mega.nz/folder/j9UklByL#UGECRD-W1P3gqv2na_GAmA",
+    "list": true,
+    "expect": {
+      "count": 4,
+      "files": [
+        "FFMPEG_#10397/rtvcvfw64.dll",
+        "FFMPEG_#10397/rtvcvfw32.dll",
+        "FFMPEG_#10397/Quake_x64_steam_2023_06_03_01_59_35_084.mkv",
+        "FFMPEG_#10397/ffplay_2023_06_03_16_59_27_797.mkv"
+      ]
+    }
+  },
+  {
+    "name": "folder-file",
+    "url": "https://mega.nz/folder/j9UklByL#UGECRD-W1P3gqv2na_GAmA/file/r8kA3KjI",
+    "expect": {
+      "url": "https://*.userstorage.mega.co.nz/*",
+      "filename": "ffplay_2023_06_03_16_59_27_797.mkv"
+    }
+  },
+  {
+    "name": "folder-file-list",
+    "url": "https://mega.nz/folder/j9UklByL#UGECRD-W1P3gqv2na_GAmA/file/r8kA3KjI",
+    "list": true,
+    "expect": {
+      "count": 1,
+      "files": [
+        "FFMPEG_#10397/ffplay_2023_06_03_16_59_27_797.mkv"
+      ]
+    }
+  },
+  {
+    "name": "folder-as-file",
+    "url": "https://mega.nz/folder/j9UklByL#UGECRD-W1P3gqv2na_GAmA",
+    "expect": {
+      "error": "this link is a folder"
+    }
   }
 ]

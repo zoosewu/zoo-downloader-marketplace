@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://g.api.mega.co.nz/cs?id=1&n=j9UklByL",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ],
+        [
+          "access-control-allow-origin",
+          "*"
+        ],
+        [
+          "access-control-allow-headers",
+          "Content-Type, X-Hashcash, MEGA-Chrome-Antileak"
+        ],
+        [
+          "access-control-expose-headers",
+          "Original-Content-Length, X-Hashcash"
+        ],
+        [
+          "access-control-max-age",
+          "86400"
+        ],
+        [
+          "cache-control",
+          "no-store"
+        ],
+        [
+          "original-content-length",
+          "1342"
+        ],
+        [
+          "connection",
+          "keep-alive"
+        ]
+      ],
+      "body": "[{\"pad\":\"*********\",\"f\":[{\"h\":\"folV3CZS\",\"p\":\"ulFBUCLa\",\"u\":\"JqeKDze1jew\",\"t\":1,\"a\":\"1FjFbmec_SgI5-N5KkrPFJcyYrsujhGrMz3w-d4_hts\",\"k\":\"folV3CZS:E311cbfK3HpLldcLWF48Yw\",\"ts\":1685783087},{\"h\":\"e811iAgA\",\"p\":\"folV3CZS\",\"u\":\"JqeKDze1jew\",\"t\":0,\"a\":\"hPMTWmaMljS-5xpb-HuFvvgA83Wii1ecprgzF63rj8VV3siN_ROkO8OxSEWbqmp9w-h6LAYone9pTDXs_1Pwzg\",\"k\":\"folV3CZS:BTYufpU1-a9F0KQ2mxcYfml26dGuJLRhntNdzSEroRg\",\"s\":246272,\"ts\":1685783219},{\"h\":\"Dx8nEYSB\",\"p\":\"folV3CZS\",\"u\":\"JqeKDze1jew\",\"t\":0,\"a\":\"Xfo3pCvXVq8yGbbKIVzcr88t0mBeon31LcodPFxBh33WEMc7URBvqr6_plmCENrX63bOuilbMMCQhApib1l5IpvywpHhlOEbIaI-qTm2qrqsVz1gkoEDpVhmlm4wzgn3\",\"k\":\"folV3CZS:RkXYi5s29f-2bHOL1O1UKvZSBSRMuW9hAXARihl4QXA\",\"s\":735963202,\"fa\":\"422:8*SSIQVtCQw5w/426:9*wEc57pSNvLw\",\"ts\":1685783368},{\"h\":\"T5lBHIYL\",\"p\":\"folV3CZS\",\"u\":\"JqeKDze1jew\",\"t\":0,\"a\":\"uSYWffAhPDCCBMVSNNrsE1sb8jOd2DAqg3vkSTJ3kFzz6120lntSCJt5zr4jZQjFx_TVSpL0cK9ZP8nR8i7naQ\",\"k\":\"folV3CZS:o_TNpyJsiO-fmRGOKHzbLq5VP7LwRqNLR7-NR2vJHs8\",\"s\":247296,\"ts\":1685783369},{\"h\":\"r8kA3KjI\",\"p\":\"folV3CZS\",\"u\":\"JqeKDze1jew\",\"t\":0,\"a\":\"ZniI9gl4DQUdLnwp7v3Dwiwfqu5ChEVzCYLUfFDPpxnZhO-YUV2g35B3ldnBnORp1K1MZmRN0Wns_inwJbwbkmMu_jZXKOAdWpSlk5pwhGMtSgW3vobS2bkV3pSFPRPQ\",\"k\":\"folV3CZS:VRiZG5FWVA-dElYhQzBoVCAVgbR0s8WA85S5HeyOOeo\",\"s\":394690,\"fa\":\"285:8*UHiAL8DbboE/392:9*mX_nGDD98yI\",\"ts\":1685837632}],\"sn\":\"ikwB9Z2Z_RQ\",\"st\":\"!cpoeZg\",\"noc\":1}]"
+    }
+  ]
+}
