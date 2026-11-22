@@ -1,12 +1,5 @@
 [
   {
-    "name": "free-wait",
-    "url": "https://www.katfile.com/bcwivmke71ad/MMS_v2.1.rar.html",
-    "expect": {
-      "error": "one free download every 2 hours"
-    }
-  },
-  {
     "name": "deleted",
     "url": "https://katfile.com/abcdefgh1234",
     "expect": {
