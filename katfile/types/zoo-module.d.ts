@@ -1,5 +1,5 @@
 /**
- * zoo-downloader site module API, level 3 (manifest `apiVersion`).
+ * zoo-downloader site module API, level 4 (manifest `apiVersion`).
  *
  * A site module is one ES module file whose default export is `defineModule({ resolve })`.
  * zoo-downloader calls `resolve` with a page URL the user pasted (one that matches the
@@ -59,6 +59,22 @@ declare module "zoo-module" {
      * return { url: dlink, maxConnections: 4, maxSegmentSize: 4 * 1024 * 1024 };
      */
     maxSegmentSize?: number;
+    /**
+     * The server sends the file encrypted (e.g. MEGA): the app decrypts every byte as it
+     * downloads, so the saved file is the plain one. Keys are hex (32 digits = 16 bytes); `iv`
+     * is the 128-bit big-endian counter block of byte 0. Segments and resuming work as usual.
+     * Needs `"apiVersion": 4`.
+     * @example
+     * return { url: link, filename, decrypt: { cipher: 'aes-128-ctr', key: hex(key), iv: hex(iv) } };
+     */
+    decrypt?: Decrypt;
+  }
+
+  /** How a resolved file is encrypted (see `Resolved.decrypt`). */
+  export interface Decrypt {
+    cipher: 'aes-128-ctr';
+    key: string;
+    iv: string;
   }
 
   /** One file of a link that holds several; what `list` returns. */
@@ -95,7 +111,7 @@ declare module "zoo-module" {
 
   /** `R` with any field `Resolved` does not have turned into an error message (the host rejects them). */
   type OnlyResolvedFields<R> = {
-    [K in keyof R]: K extends keyof Resolved ? R[K] : `'${K & string}' is not a Resolved field (url, filename, headers, size, maxConnections, maxSegmentSize)`;
+    [K in keyof R]: K extends keyof Resolved ? R[K] : `'${K & string}' is not a Resolved field (url, filename, headers, size, maxConnections, maxSegmentSize, decrypt)`;
   };
 
   /** Marks the default export as a site module and type-checks it. Returns `module` unchanged. */

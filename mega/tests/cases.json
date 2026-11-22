@@ -1,0 +1,43 @@
+[
+  {
+    "name": "file",
+    "url": "https://mega.nz/file/wXM0WB5L#GnTOb_Yf891XGODC5Kl5GkttLaoR00Ylz9mKgocv88A",
+    "expect": {
+      "url": "https://*.userstorage.mega.co.nz/*",
+      "filename": "01124402.rar"
+    }
+  },
+  {
+    "name": "file-list",
+    "url": "https://mega.nz/file/wXM0WB5L#GnTOb_Yf891XGODC5Kl5GkttLaoR00Ylz9mKgocv88A",
+    "list": true,
+    "expect": {
+      "count": 1,
+      "files": [
+        "01124402.rar"
+      ]
+    }
+  },
+  {
+    "name": "embed",
+    "url": "https://mega.nz/embed/wXM0WB5L#GnTOb_Yf891XGODC5Kl5GkttLaoR00Ylz9mKgocv88A",
+    "expect": {
+      "url": "https://*.userstorage.mega.co.nz/*",
+      "filename": "01124402.rar"
+    }
+  },
+  {
+    "name": "deleted",
+    "url": "https://mega.nz/file/AAAAAAAA#GnTOb_Yf891XGODC5Kl5GkttLaoR00Ylz9mKgocv88A",
+    "expect": {
+      "error": "file not found"
+    }
+  },
+  {
+    "name": "no-key",
+    "url": "https://mega.nz/file/wXM0WB5L",
+    "expect": {
+      "error": "not a whole MEGA link"
+    }
+  }
+]

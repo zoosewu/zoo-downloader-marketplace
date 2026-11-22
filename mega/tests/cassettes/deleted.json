@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://g.api.mega.co.nz/cs?id=1",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ],
+        [
+          "access-control-allow-origin",
+          "*"
+        ],
+        [
+          "access-control-allow-headers",
+          "Content-Type, X-Hashcash, MEGA-Chrome-Antileak"
+        ],
+        [
+          "access-control-expose-headers",
+          "Original-Content-Length, X-Hashcash"
+        ],
+        [
+          "access-control-max-age",
+          "86400"
+        ],
+        [
+          "cache-control",
+          "no-store"
+        ],
+        [
+          "original-content-length",
+          "4"
+        ],
+        [
+          "content-length",
+          "4"
+        ],
+        [
+          "connection",
+          "keep-alive"
+        ]
+      ],
+      "body": "[-9]"
+    }
+  ]
+}

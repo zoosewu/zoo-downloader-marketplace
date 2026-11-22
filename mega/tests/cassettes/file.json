@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "exchanges": [
+    {
+      "method": "POST",
+      "url": "https://g.api.mega.co.nz/cs?id=1",
+      "status": 200,
+      "headers": [
+        [
+          "content-type",
+          "application/json"
+        ],
+        [
+          "access-control-allow-origin",
+          "*"
+        ],
+        [
+          "access-control-allow-headers",
+          "Content-Type, X-Hashcash, MEGA-Chrome-Antileak"
+        ],
+        [
+          "access-control-expose-headers",
+          "Original-Content-Length, X-Hashcash"
+        ],
+        [
+          "access-control-max-age",
+          "86400"
+        ],
+        [
+          "cache-control",
+          "no-store"
+        ],
+        [
+          "original-content-length",
+          "482"
+        ],
+        [
+          "content-length",
+          "482"
+        ],
+        [
+          "connection",
+          "keep-alive"
+        ]
+      ],
+      "body": "[{\"s\":858085204,\"at\":\"XAO-Q3oOrFCvkkNSB7iCodJhXLIrdAgrrtS9XXBpW0rf8j4lH7uZWTm5x4EZNeMbGjMuoFAM_iZ-3k-2bIu8KQ\",\"msd\":1,\"g\":\"https://gfs208n197.userstorage.mega.co.nz/dl/WCLCzYlItdPPbQdWoLZ0KNfFxN4gb5-vWfzcE0AT4pG8fJSuhihzBJ3B2oD_bwvaBLppFaDAzWrpn4i5ueGM3QXzD54dP-PCwLlnFA53iWkTG6HWcIHlhMg08Jn_QdNkkbqjbKCGU9Tefct3yPhGOftveM7EbJ-P_BhRFCmujl3RY34UFdC1LdwxzqugaBEurbgxtNWUb3loNNJaD1dfcbl5uoQ4xwsyfx3z--tr0afIFxRt3lpO-k7hFg\",\"ip\":[\"185.206.26.117\",\"2a0b:e42:1::117\"],\"fh\":\"bsoHX5izoB4\"}]"
+    },
+    {
+      "method": "GET",
+      "url": "https://gfs208n197.userstorage.mega.co.nz/dl/WCLCzYlItdPPbQdWoLZ0KNfFxN4gb5-vWfzcE0AT4pG8fJSuhihzBJ3B2oD_bwvaBLppFaDAzWrpn4i5ueGM3QXzD54dP-PCwLlnFA53iWkTG6HWcIHlhMg08Jn_QdNkkbqjbKCGU9Tefct3yPhGOftveM7EbJ-P_BhRFCmujl3RY34UFdC1LdwxzqugaBEurbgxtNWUb3loNNJaD1dfcbl5uoQ4xwsyfx3z--tr0afIFxRt3lpO-k7hFg",
+      "status": 206,
+      "headers": [
+        [
+          "content-range",
+          "bytes 0-0/858085204"
+        ],
+        [
+          "content-length",
+          "1"
+        ],
+        [
+          "content-type",
+          "application/octet-stream"
+        ],
+        [
+          "content-disposition",
+          "attachment"
+        ],
+        [
+          "cache-control",
+          "private"
+        ],
+        [
+          "content-transfer-encoding",
+          "binary"
+        ],
+        [
+          "access-control-allow-origin",
+          "*"
+        ],
+        [
+          "access-control-allow-headers",
+          "Content-Type, MEGA-Chrome-Antileak"
+        ],
+        [
+          "access-control-max-age",
+          "86400"
+        ]
+      ],
+      "body": "V"
+    }
+  ]
+}

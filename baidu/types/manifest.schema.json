@@ -12,8 +12,8 @@
       "description": "Path or URL of this schema, for editor completion. Ignored by the app."
     },
     "apiVersion": {
-      "const": 3,
-      "description": "The API level the module is written against: this SDK's (3). An app runs every level from the oldest it supports up to its own, so a module on a newer level than an app shows there as needing a newer Zoo Downloader. Level 2 added credentialsHelp, help, helpUrl and translated labels; level 3 added zoo.ask."
+      "const": 4,
+      "description": "The API level the module is written against: this SDK's (4). An app runs every level from the oldest it supports up to its own, so a module on a newer level than an app shows there as needing a newer Zoo Downloader. Level 2 added credentialsHelp, help, helpUrl and translated labels; level 3 added zoo.ask; level 4 added decrypt in resolve's result."
     },
     "id": {
       "type": "string",

@@ -25,6 +25,14 @@
       "source": "katfile",
       "description": "KatFile (katfile.com)",
       "sha256": "2c8db60c12d3067a8f8502db22d2a89abdcdba7732d45293860eb91d1135fea1"
+    },
+    {
+      "id": "mega",
+      "version": "1.0.0",
+      "apiVersion": 4,
+      "source": "mega",
+      "description": "MEGA (mega.nz)",
+      "sha256": "7e20924c0bea18b6227205cada8ba083b09469c3300ea184d4707ed150631c65"
     }
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "$schema": "./types/manifest.schema.json",
+  "apiVersion": 4,
+  "id": "mega",
+  "name": "MEGA",
+  "version": "1.0.0",
+  "description": "Downloads files and folders shared on MEGA (mega.nz/file/..., mega.nz/folder/...). MEGA stores files encrypted; the key in the link decrypts them as they download. When the free transfer quota is used up, the download waits with a countdown and continues where it stopped.",
+  "urlPatterns": [
+    "https://mega.nz/file/*",
+    "https://mega.nz/embed/*",
+    "https://mega.nz/folder/*"
+  ],
+  "autoStart": true,
+  "permissions": {
+    "network": { "allowDomains": ["mega.co.nz", "mega.nz"] }
+  }
+}
