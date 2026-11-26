@@ -6,9 +6,12 @@
 // saved into the user's netdisk (FOLDER) and the desktop client's download API gives a plain
 // link for it. Recorded from the live site (tests/cassettes/, 2026-11-15 and 2026-11-17; the
 // logged-in page and the link reply are trimmed to the fields read here, without account data):
-//   - pcs download servers serve only the client's User-Agent, need no cookie, and refuse
-//     ranges over about 4 MiB for non-members (403); links expire after 8 hours;
-//   - non-members get ~15 KiB/s per connection and are cut off above 4 connections;
+//   - pcs download servers serve only the User-Agent the link was asked with, need no cookie,
+//     and refuse ranges over about 4 MiB for non-members (403); links expire after 8 hours;
+//   - the speed limit is signed into the link (`csl`, `tsl`) and depends on the app_id that
+//     asked for it (measured 2026-11-26, non-member): the web app's 250528 gets 50 KiB/s for the
+//     whole download and refuses more than 4 connections; 778750 (also 265486, 266719, 309847,
+//     498065) gets 80 per connection, measured 68 on one, 167 on four and 199 on eight;
 //   - a link keeps working after the file is deleted from the netdisk.
 // Saved files are left for the download and cleaned up on later calls: anything in FOLDER
 // saved more than LINK_LIFETIME ago has no live link any more. A download that outlives its
@@ -25,6 +28,8 @@ const PAN = 'https://pan.baidu.com';
 const WEB = 'channel=chunlei&web=1&app_id=250528&clienttype=0';
 const BROWSER = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
 const CLIENT = 'netdisk;7.42.0.5;PC;PC-Windows;10.0.22631;WindowsBaiduYunGuanJia';
+/** The app_id download links are asked as: the one with the higher speed limit. */
+const LINK_APP = 778750;
 /** What share/list returns per page at most. */
 const PAGE = 100;
 /** The app takes at most this many files from one link. */
@@ -305,8 +310,8 @@ export default defineModule({
       saved = { ...file, path: to ?? `${FOLDER}/${file.server_filename}` };
     }
 
-    // A plain link from the desktop client's API.
-    const located = await fetch(`https://d.pcs.baidu.com/rest/2.0/pcs/file?method=locatedownload&app_id=250528&ver=4.0&path=${encodeURIComponent(saved.path)}`, {
+    // A plain link from the desktop client's API, asked as LINK_APP (see the speed notes above).
+    const located = await fetch(`https://d.pcs.baidu.com/rest/2.0/pcs/file?method=locatedownload&app_id=${LINK_APP}&ver=4.0&path=${encodeURIComponent(saved.path)}`, {
       headers: { 'User-Agent': CLIENT, Cookie: s.login },
     });
     const urls = (await located.json()) as { urls?: { url?: string }[]; error_code?: number; error_msg?: string };
@@ -318,7 +323,7 @@ export default defineModule({
       filename: file.server_filename,
       size: Number(file.size),
       headers: { 'User-Agent': CLIENT },
-      maxConnections: 4,
+      maxConnections: 8,
       maxSegmentSize: 4 * 1024 * 1024,
     };
   },

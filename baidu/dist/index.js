@@ -6,6 +6,7 @@ var PAN = "https://pan.baidu.com";
 var WEB = "channel=chunlei&web=1&app_id=250528&clienttype=0";
 var BROWSER = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 var CLIENT = "netdisk;7.42.0.5;PC;PC-Windows;10.0.22631;WindowsBaiduYunGuanJia";
+var LINK_APP = 778750;
 var PAGE = 100;
 var MAX_FILES = 1e3;
 var CODE = {
@@ -218,7 +219,7 @@ var index_default = defineModule({
       const to = transfer.extra?.list?.[0]?.to;
       saved = { ...file, path: to ?? `${FOLDER}/${file.server_filename}` };
     }
-    const located = await fetch(`https://d.pcs.baidu.com/rest/2.0/pcs/file?method=locatedownload&app_id=250528&ver=4.0&path=${encodeURIComponent(saved.path)}`, {
+    const located = await fetch(`https://d.pcs.baidu.com/rest/2.0/pcs/file?method=locatedownload&app_id=${LINK_APP}&ver=4.0&path=${encodeURIComponent(saved.path)}`, {
       headers: { "User-Agent": CLIENT, Cookie: s.login }
     });
     const urls = await located.json();
@@ -229,7 +230,7 @@ var index_default = defineModule({
       filename: file.server_filename,
       size: Number(file.size),
       headers: { "User-Agent": CLIENT },
-      maxConnections: 4,
+      maxConnections: 8,
       maxSegmentSize: 4 * 1024 * 1024
     };
   }

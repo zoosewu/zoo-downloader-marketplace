@@ -87,7 +87,7 @@
     },
     {
       "method": "GET",
-      "url": "https://d.pcs.baidu.com/rest/2.0/pcs/file?method=locatedownload&app_id=250528&ver=4.0&path=%2Fzoo-downloader%2F%E7%9C%8B%E6%88%91.txt",
+      "url": "https://d.pcs.baidu.com/rest/2.0/pcs/file?method=locatedownload&app_id=778750&ver=4.0&path=%2Fzoo-downloader%2F%E7%9C%8B%E6%88%91.txt",
       "status": 200,
       "headers": [
         [
