@@ -16,8 +16,9 @@
 //
 // Free transfer quota: when an IP has used it up, the storage server answers 509 with
 // X-MEGA-Time-Left (seconds). The module checks with a one-byte request before handing out a
-// link and waits that out; when the quota runs out during a download, the app gets 509 and asks
-// the module again, which waits, and the download resumes where it stopped.
+// link and tells the app how long (`retryAfter`); the app waits without a download slot and holds
+// the other MEGA downloads. When the quota runs out during a download, the app gets 509 and asks
+// the module again: the same answer, and the download resumes where it stopped once it is back.
 //
 // Links: /file/<h>#<key>, /embed/<h>#<key>, /folder/<h>#<key>, and inside a folder
 // /folder/<h>#<key>/file/<node> or /folder/<node>. The old #!<h>!<key> form is not handled: its
@@ -31,12 +32,8 @@ import { decryptCbc, decryptEcb } from './aes';
 
 const API = 'https://g.api.mega.co.nz/cs';
 const SITE = 'https://mega.nz';
-/** `zoo.wait` takes at most this much at once. */
-const WAIT_STEP = 600;
 /** When MEGA does not say how long the quota lasts. */
 const DEFAULT_WAIT = 600;
-/** Checks for the quota before giving up; the waits between them are what MEGA says is left. */
-const MAX_ROUNDS = 6;
 /** The app takes at most this many files from one link. */
 const MAX_FILES = 1000;
 
@@ -208,11 +205,6 @@ async function quotaWait(url: string, zoo: Zoo): Promise<number> {
   return Number.isFinite(left) && left > 0 ? Math.ceil(left) : DEFAULT_WAIT;
 }
 
-async function waitOut(seconds: number, zoo: Zoo): Promise<void> {
-  for (let left = seconds; left > 0; left -= WAIT_STEP) {
-    await zoo.wait(Math.min(left, WAIT_STEP), `MEGA's free transfer quota is used up: ${clock(left)} until it is back`);
-  }
-}
 
 // ── the module ──
 
@@ -264,22 +256,21 @@ export default defineModule({
     }
     const { aes, iv } = fileKeys(key);
 
-    for (let round = 1; ; round++) {
-      const download = await api<Download>(ask, zoo, folder);
-      if (!download.g) throw zoo.fail('MEGA gave no download link', { hint: 'try again later' });
-      const wait = await quotaWait(download.g, zoo);
-      if (wait === 0) {
-        return {
-          url: download.g,
-          filename: nameOf(download.at, aes),
-          size: download.s,
-          decrypt: { cipher: 'aes-128-ctr', key: hex(aes), iv: hex(iv) },
-        };
-      }
-      if (round === MAX_ROUNDS) {
-        throw zoo.fail(`MEGA's free transfer quota is still used up (${clock(wait)} left)`, { hint: 'try again later' });
-      }
-      await waitOut(wait, zoo);
+    const download = await api<Download>(ask, zoo, folder);
+    if (!download.g) throw zoo.fail('MEGA gave no download link', { hint: 'try again later' });
+    const wait = await quotaWait(download.g, zoo);
+    if (wait > 0) {
+      // The app waits without a download slot and holds the other MEGA downloads meanwhile.
+      throw zoo.fail(`MEGA's free transfer quota is used up; it is back in ${clock(wait)}`, {
+        hint: 'a MEGA account with more transfer quota skips the wait',
+        retryAfter: wait,
+      });
     }
+    return {
+      url: download.g,
+      filename: nameOf(download.at, aes),
+      size: download.s,
+      decrypt: { cipher: 'aes-128-ctr', key: hex(aes), iv: hex(iv) },
+    };
   },
 });

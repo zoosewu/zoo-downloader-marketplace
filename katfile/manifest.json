@@ -1,10 +1,10 @@
 {
   "$schema": "./types/manifest.schema.json",
-  "apiVersion": 1,
+  "apiVersion": 5,
   "id": "katfile",
   "name": "KatFile",
-  "version": "1.1.0",
-  "description": "Downloads files shared on KatFile (katfile.com). Free downloads need no captcha or countdown, but KatFile allows one every 2 hours, limits it to about 100 KB/s on a single connection, and it cannot be resumed. During the wait the download shows a countdown and starts by itself afterwards.",
+  "version": "1.2.0",
+  "description": "Downloads files shared on KatFile (katfile.com). Free downloads need no captcha or countdown, but KatFile allows one every 2 hours, limits it to about 100 KB/s on a single connection, and it cannot be resumed. Until then the download waits with a countdown, without taking a download slot, and the other KatFile downloads wait their turn.",
   "urlPatterns": [
     "https://katfile.com/*",
     "https://www.katfile.com/*",

@@ -20,19 +20,19 @@
     },
     {
       "id": "katfile",
-      "version": "1.1.0",
-      "apiVersion": 1,
+      "version": "1.2.0",
+      "apiVersion": 5,
       "source": "katfile",
       "description": "KatFile (katfile.com)",
-      "sha256": "2c8db60c12d3067a8f8502db22d2a89abdcdba7732d45293860eb91d1135fea1"
+      "sha256": "01c9d126aba77ccc4b2e566d2f0cc94be85c17f430d5b2de6954abd2925ebc13"
     },
     {
       "id": "mega",
-      "version": "1.0.0",
-      "apiVersion": 4,
+      "version": "1.1.0",
+      "apiVersion": 5,
       "source": "mega",
       "description": "MEGA (mega.nz)",
-      "sha256": "7e20924c0bea18b6227205cada8ba083b09469c3300ea184d4707ed150631c65"
+      "sha256": "fd23ba8aca6719cb3e9e248ba7ad2600afcd71625960ea39d04c2e6bc2964c2c"
     }
   ]
 }

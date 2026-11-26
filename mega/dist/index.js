@@ -90,9 +90,7 @@ function decryptCbc(key, data) {
 // src/index.ts
 var API = "https://g.api.mega.co.nz/cs";
 var SITE = "https://mega.nz";
-var WAIT_STEP = 600;
 var DEFAULT_WAIT = 600;
-var MAX_ROUNDS = 6;
 var MAX_FILES = 1e3;
 function fromB64(text) {
   const b64 = text.replace(/-/g, "+").replace(/_/g, "/").replace(/,/g, "");
@@ -210,11 +208,6 @@ async function quotaWait(url, zoo) {
   const left = Number(response.headers.get("x-mega-time-left"));
   return Number.isFinite(left) && left > 0 ? Math.ceil(left) : DEFAULT_WAIT;
 }
-async function waitOut(seconds, zoo) {
-  for (let left = seconds; left > 0; left -= WAIT_STEP) {
-    await zoo.wait(Math.min(left, WAIT_STEP), `MEGA's free transfer quota is used up: ${clock(left)} until it is back`);
-  }
-}
 var index_default = defineModule({
   async list(url, zoo) {
     const link = linkOf(url, zoo);
@@ -257,23 +250,21 @@ var index_default = defineModule({
       folder = link.handle;
     }
     const { aes, iv } = fileKeys(key);
-    for (let round = 1; ; round++) {
-      const download = await api(ask, zoo, folder);
-      if (!download.g) throw zoo.fail("MEGA gave no download link", { hint: "try again later" });
-      const wait = await quotaWait(download.g, zoo);
-      if (wait === 0) {
-        return {
-          url: download.g,
-          filename: nameOf(download.at, aes),
-          size: download.s,
-          decrypt: { cipher: "aes-128-ctr", key: hex(aes), iv: hex(iv) }
-        };
-      }
-      if (round === MAX_ROUNDS) {
-        throw zoo.fail(`MEGA's free transfer quota is still used up (${clock(wait)} left)`, { hint: "try again later" });
-      }
-      await waitOut(wait, zoo);
+    const download = await api(ask, zoo, folder);
+    if (!download.g) throw zoo.fail("MEGA gave no download link", { hint: "try again later" });
+    const wait = await quotaWait(download.g, zoo);
+    if (wait > 0) {
+      throw zoo.fail(`MEGA's free transfer quota is used up; it is back in ${clock(wait)}`, {
+        hint: "a MEGA account with more transfer quota skips the wait",
+        retryAfter: wait
+      });
     }
+    return {
+      url: download.g,
+      filename: nameOf(download.at, aes),
+      size: download.s,
+      decrypt: { cipher: "aes-128-ctr", key: hex(aes), iv: hex(iv) }
+    };
   }
 });
 export {

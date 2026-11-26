@@ -1,5 +1,5 @@
 /**
- * zoo-downloader site module API, level 4 (manifest `apiVersion`).
+ * zoo-downloader site module API, level 5 (manifest `apiVersion`).
  *
  * A site module is one ES module file whose default export is `defineModule({ resolve })`.
  * zoo-downloader calls `resolve` with a page URL the user pasted (one that matches the
@@ -126,8 +126,14 @@ declare module "zoo-module" {
      * An error to throw, with an optional hint telling the user (or you, while developing)
      * what to do about it.
      * @example throw zoo.fail('file was deleted', { hint: 'ask the uploader for a new link' });
+     *
+     * `retryAfter`: the site refuses for that many seconds (a free download limit, a used-up
+     * quota). Never wait that out in `resolve`: the app waits without holding a download slot,
+     * holds the site's other downloads too, then tries them in queue order. Needs
+     * `"apiVersion": 5`.
+     * @example throw zoo.fail('one free download every 2 hours', { retryAfter: 6600 });
      */
-    fail(message: string, options?: { hint?: string }): Error;
+    fail(message: string, options?: { hint?: string; retryAfter?: number }): Error;
 
     /** Diagnostics; visible in the module test output and app logs. Same as `console`. */
     log: ZooLog;
