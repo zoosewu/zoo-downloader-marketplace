@@ -1,7 +1,9 @@
-# Zoo Downloader official marketplace
+# Zoo Downloader marketplace: zoo
 
-The site modules [Zoo Downloader](https://github.com/zoosewu/zoo-downloader) offers as
-"official". The app reads `zoo-marketplace.json` from this repository's default branch, so a
+The site modules [Zoo Downloader](https://github.com/zoosewu/zoo-downloader) comes with: the
+marketplace named "zoo" (modules install as `<id>@zoo`; it was called "official" until app
+0.5.0, which moves modules installed under that name). The app reads `zoo-marketplace.json`
+from this repository's default branch, so a
 module change pushed to `main` reaches every user (who checks for module updates) without an
 app release.
 
